@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdColumnToPosts extends Migration
+class DropAuthorColumnFromPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,7 @@ class AddUserIdColumnToPosts extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //?forma esplicita
-            $table->unsignedBigInteger('user_id')->after('id');
-            $table->foreign('user_id')
-            ->references('id')
-            ->on('users'); //scelgo la tabella
+            $table->dropColumn('author');
         });
     }
 
@@ -30,8 +26,8 @@ class AddUserIdColumnToPosts extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            $table->string('author')->after('id');
         });
     }
 }
+
